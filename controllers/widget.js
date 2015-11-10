@@ -29,6 +29,8 @@ if (Dialog == null) throw new Error(LCAT + ": you need the Dialog module to use 
 var fields = args.fields;
 var fields_map = [];
 
+var submitting = false;
+
 /////////////
 // Methods //
 /////////////
@@ -57,14 +59,23 @@ function submit() {
 		obj[f.name] = _.isFunction(f.getValue) ? f.getValue() : f.ui.getValue();
 	});
 
+	submitting = true;
+	$.formMainView.touchEnabled = false;
+
 	$.trigger('submit', {
 		data: obj
 	});
+
 }
 
 ////////////////////
 // Public methods //
 ////////////////////
+
+$.endSubmit = function() {
+	submitting = false;
+	$.formMainView.touchEnabled = true;
+};
 
 $.submit = function() {
 	if (args.askBeforeSubmit) {
@@ -72,7 +83,7 @@ $.submit = function() {
 		{
 			title: L("form_submit", "Submit"),
 			callback: function() {
-				submit();
+				if ($.validate()) submit();
 			}
 		},
 		{
@@ -81,7 +92,7 @@ $.submit = function() {
 		}
 		]);
 	} else {
-		submit();
+		if ($.validate()) submit();
 	}
 };
 
@@ -232,9 +243,8 @@ var $submit_btn = $.UI.create('Button', {
 });
 
 $submit_btn.addEventListener('click', function(e) {
-	if ($.validate()) {
-		$.submit();
-	}
+	if (submitting) return;
+	$.submit();
 });
 
 $.formMainView.add($submit_btn);
