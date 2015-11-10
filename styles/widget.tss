@@ -1,0 +1,60 @@
+".formMainView":{
+	layout: 'vertical',
+	backgroundColor: '#fff'
+},
+".formGroupLabel":{
+	left: 15,
+	right: 15,
+	top: 20,
+	textAlign: 'left',
+},
+".formGroupSeparator":{
+	left: 0,
+	right: 0,
+	top: 4,
+	backgroundColor: '#4000',
+	height: 1
+},
+".formWrap":{
+	height: Ti.UI.SIZE,
+	top: 10,
+	left: 15,
+	right: 15,
+	height: 86,
+},
+".formLabel":{
+	left: 0,
+	top: 0,
+	textAlign: 'left',
+},
+".formInput":{
+	left: 0,
+	top: 20,
+	right: 0,
+	height: 50,
+	borderWidth: 1,
+	borderColor: '#ccc',
+	backgroundColor: '#F6F6F6',
+	paddingLeft: 10,
+	paddingRight: 0,
+	useDoneToolbar: true,
+	color: '#000'
+},
+".formInputError":{
+	borderColor: 'red',
+},
+".formValidatorMessage":{
+	color: 'red',
+	left: 0,
+	textAlign: 'left',
+	bottom: 0,
+},
+".formSubmitButton":{
+	top: 30,
+	left: 10,
+	right: 10,
+	height: 50,
+	title: L('form_submit', 'Submit'),
+	color: '#fff',
+	backgroundColor: '#000'
+}

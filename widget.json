@@ -1,0 +1,13 @@
+{
+	"id": "com.caffeinalab.titanium.formbuilder",
+	"name": "Ti.FormBuilder",
+	"description" : "Build forms for Titanium with just an object.",
+	"author": "Flavio De Stefano",
+	"version": "1.0.0",
+	"copyright":"Copyright (c) 2015",
+	"license":"MIT",
+	"min-alloy-version": "1.0",
+	"min-titanium-version":"3.0",
+	"tags":"form,builder,input,submit",
+	"platforms":"android,ios"
+}
