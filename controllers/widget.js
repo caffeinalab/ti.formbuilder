@@ -195,13 +195,16 @@ exports.UIBuilder.boolean = function(e,f) {
 var index = 0;
 
 _.each(_.groupBy(fields, 'group'), function(subFields, k) {
-	$.formMainView.add($.UI.create('Label', {
-		classes: ['formGroupLabel'],
-		text: k
-	}));
-	$.formMainView.add($.UI.create('View', {
-		classes: ['formGroupSeparator']
-	}));
+	if (k !== "undefined") {
+		$.formMainView.add($.UI.create('Label', {
+			classes: ['formGroupLabel'],
+			text: k
+		}));
+		$.formMainView.add($.UI.create('View', {
+			classes: ['formGroupSeparator']
+		}));
+	}
+
 	$.formMainView.add(Ti.UI.createView({ height: 8 }));
 
 	subFields.forEach(function(e) {
