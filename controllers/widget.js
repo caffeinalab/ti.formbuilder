@@ -1,4 +1,8 @@
 var args = arguments[0] || {};
+_.defaults(args, {
+	askBeforeSubmit: false
+});
+
 var LCAT = "Ti.FormBuilder";
 
 /////////////////////////
@@ -31,7 +35,20 @@ var fields_map = [];
 
 function addValidationError(f, msg) {
 	f.uiValidation.text = msg;
-	f.uiValidation.animate({ opacity: 1 });
+	f.uiValidation.animate({
+		opacity: 1,
+	});
+
+	if (_.isFunction(f.addError)) f.addError();
+}
+
+function removeValidationError(f) {
+	f.uiValidation.text = "";
+	f.uiValidation.animate({
+		opacity: 1,
+	});
+
+	if (_.isFunction(f.removeError)) f.removeError();
 }
 
 function submit() {
@@ -50,7 +67,8 @@ function submit() {
 ////////////////////
 
 $.submit = function() {
-	Dialog.option(L("form_submit_prompt", "Do you want to submit the form?"), [
+	if (args.askBeforeSubmit) {
+		Dialog.option(L("form_submit_prompt", "Do you want to submit the form?"), [
 		{
 			title: L("form_submit", "Submit"),
 			callback: function() {
@@ -61,11 +79,15 @@ $.submit = function() {
 			title: L("form_cancel", "Cancel"),
 			cancel: true
 		}
-	]);
+		]);
+	} else {
+		submit();
+	}
 };
 
 $.validate = function() {
 	var can_submit = true;
+	var field_to_focus = null;
 
 	_.each(fields_map, function(f, k) {
 		var def = fields[k];
@@ -83,9 +105,9 @@ $.validate = function() {
 			}
 
 			if (requiredValue !== true) {
-				if (_.isFunction(f.addError)) f.addError();
 				addValidationError(f, L("form_required_field", "Required field"));
 				can_submit = false;
+				field_to_focus = field_to_focus || f;
 				Ti.API.error(f.name, 'required');
 				return false;
 			}
@@ -95,19 +117,25 @@ $.validate = function() {
 		if (_.isFunction(def.validator)) {
 			var validMessage = def.validator(f.ui.value || '');
 			if (validMessage !== true) {
-				if (_.isFunction(f.addError)) f.addError();
 				addValidationError(f, validMessage);
 				can_submit = false;
+				field_to_focus = field_to_focus || f;
 				Ti.API.error(f.name, 'invalid');
 				return false;
 			}
 		}
 
 		Ti.API.info(f.name, 'success');
-
-		if (_.isFunction(f.removeError)) f.removeError();
-		f.uiValidation.applyProperties({ text: "", opacity: 0 });
+		removeValidationError(f);
 	});
+
+	if (field_to_focus != null) {
+		if (_.isFunction(field_to_focus.focus)) {
+			field_to_focus.focus();
+		} else if (_.isFunction(field_to_focus.ui.focus)) {
+			field_to_focus.ui.focus();
+		}
+	}
 
 	return can_submit;
 };
@@ -128,17 +156,7 @@ exports.UIBuilder.text = function(e,f) {
 	f.addError = function() { $.resetClass(f.ui, "formInput formInputError"); };
 	f.removeError = function() { $.resetClass(f.ui, "formInput"); };
 
-	f.ui.addEventListener('return', function(e) {
-		$.validate();
-		for (var i = f.index; i < fields_map.length; i++) {
-			if (_.isEmpty(fields_map[i].ui.getValue())) {
-				if (_.isFunction(fields_map[i].ui.focus)) {
-					fields_map[i].ui.focus();
-					return;
-				}
-			}
-		}
-	});
+	f.ui.addEventListener('return', $.validate);
 };
 
 exports.UIBuilder.boolean = function(e,f) {

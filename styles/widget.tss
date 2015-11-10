@@ -37,7 +37,6 @@
 	backgroundColor: '#F6F6F6',
 	paddingLeft: 10,
 	paddingRight: 0,
-	useDoneToolbar: true,
 	color: '#000'
 },
 ".formInputError":{

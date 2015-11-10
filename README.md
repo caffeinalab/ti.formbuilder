@@ -34,6 +34,10 @@ var form = Alloy.createWidget('com.caffeinalab.titanium.formbuilder', {
 });
 ```
 
+#### Options
+
+#### `askBeforeSubmit (Boolean)`: Show an option dialog before the real submit
+
 #### Options for the field
 
 ##### `name (String)`: The name (ID) of this field
