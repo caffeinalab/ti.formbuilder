@@ -56,7 +56,9 @@ function removeValidationError(f) {
 function submit() {
 	var obj = {};
 	fields_map.forEach(function(f) {
-		obj[f.name] = _.isFunction(f.getValue) ? f.getValue() : f.ui.getValue();
+		if (f.name) {
+			obj[f.name] = _.isFunction(f.getValue) ? f.getValue() : f.ui.getValue();
+		}
 	});
 
 	submitting = true;
@@ -65,7 +67,6 @@ function submit() {
 	$.trigger('submit', {
 		data: obj
 	});
-
 }
 
 ////////////////////
@@ -104,8 +105,6 @@ $.validate = function() {
 		var def = fields[k];
 		var current_value = _.isFunction(f.getValue) ? f.getValue() : f.ui.getValue();
 
-		Ti.API.debug(f.name, current_value);
-
 		// Required validation
 		if (def.required) {
 			var requiredValue = false;
@@ -119,7 +118,6 @@ $.validate = function() {
 				addValidationError(f, L("form_required_field", "Required field"));
 				can_submit = false;
 				field_to_focus = field_to_focus || f;
-				Ti.API.error(f.name, 'required');
 				return false;
 			}
 		}
@@ -131,12 +129,10 @@ $.validate = function() {
 				addValidationError(f, validMessage);
 				can_submit = false;
 				field_to_focus = field_to_focus || f;
-				Ti.API.error(f.name, 'invalid');
 				return false;
 			}
 		}
 
-		Ti.API.info(f.name, 'success');
 		removeValidationError(f);
 	});
 
@@ -161,6 +157,7 @@ exports.UIBuilder.text = function(e,f) {
 	f.ui = UIFactoryTextField(_.extend({}, $.createStyle({ classes: ['formInput'] }), {
 		textType: e.type,
 		hintText: e.placeholder,
+		value: e.value,
 		returnKeyType: Titanium.UI.RETURNKEY_NEXT
 	}));
 
@@ -172,8 +169,8 @@ exports.UIBuilder.text = function(e,f) {
 
 exports.UIBuilder.boolean = function(e,f) {
 	var switcher = $.UI.create('Switch', {
-		value: false,
-		left: 0,
+		value: e.value,
+		left: 0
 	});
 	var label = $.UI.create('Label', {
 		left: 60,
