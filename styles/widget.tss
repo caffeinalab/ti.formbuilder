@@ -53,7 +53,6 @@
 	left: 10,
 	right: 10,
 	height: 50,
-	title: L('form_submit', 'Submit'),
 	color: '#fff',
 	backgroundColor: '#000'
 }

@@ -1,6 +1,7 @@
 var args = arguments[0] || {};
 _.defaults(args, {
-	askBeforeSubmit: false
+	askBeforeSubmit: false,
+	submitTitle: L('form_submit', 'Submit')
 });
 
 var LCAT = "Ti.FormBuilder";
@@ -239,7 +240,8 @@ _.each(_.groupBy(fields, 'group'), function(subFields, k) {
 });
 
 var $submit_btn = $.UI.create('Button', {
-	classes: ['formSubmitButton']
+	classes: ['formSubmitButton'],
+	title: args.submitTitle
 });
 
 $submit_btn.addEventListener('click', function(e) {

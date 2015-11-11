@@ -36,7 +36,9 @@ var form = Alloy.createWidget('com.caffeinalab.titanium.formbuilder', {
 
 #### Options
 
-#### `askBeforeSubmit (Boolean)`: Show an option dialog before the real submit
+##### `askBeforeSubmit (Boolean)`: Show an option dialog before the real submit
+
+##### `submitTitle (String)`: The title of the submit button
 
 #### Options for the field
 
