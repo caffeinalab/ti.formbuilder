@@ -169,7 +169,7 @@ exports.UIBuilder.text = function(e,f) {
 };
 
 exports.UIBuilder.boolean = function(e,f) {
-	var switcher = $.UI.create('Switch', {
+	var switcher = Ti.UI.createSwitch({
 		value: e.value,
 		left: 0
 	});
