@@ -20,6 +20,9 @@ if (UIFactory == null) throw new Error(LCAT + ": you need the UIFactory module t
 var UIFactoryTextField = require('T/uifactory/textfield');
 if (UIFactoryTextField == null) throw new Error(LCAT + ": you need the UIFactory.TextField module to use this widget");
 
+var UIFactoryLabel = require('T/uifactory/label');
+if (UIFactoryLabel == null) throw new Error(LCAT + ": you need the UIFactory.Label module to use this widget");
+
 var Dialog = require('T/dialog');
 if (Dialog == null) throw new Error(LCAT + ": you need the Dialog module to use this widget");
 
@@ -173,11 +176,11 @@ exports.UIBuilder.boolean = function(e,f) {
 		value: e.value,
 		left: 0
 	});
-	var label = $.UI.create('Label', {
+	var label = UIFactoryLabel(_.extend({}, $.createStyle({ classes: ['formBooleanLabel'] }), {
 		left: 60,
 		right: 0,
-		text: e.placeholder
-	});
+		html: e.placeholder
+	}));
 
 	f.ui = Ti.UI.createView();
 	f.ui.add(switcher);

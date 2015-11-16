@@ -55,4 +55,9 @@
 	height: 50,
 	color: '#fff',
 	backgroundColor: '#000'
+},
+".formBooleanLabel":{
+	font:{
+		fontSize: 12
+	}
 }
