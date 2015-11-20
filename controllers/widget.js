@@ -10,7 +10,7 @@ var LCAT = "Ti.FormBuilder";
 // Requirements checks //
 /////////////////////////
 
-if (Ti.Trimethyl == null) {
+if (Alloy.Globals.Trimethyl == null) {
 	throw new Error(LCAT + ": you need to install Trimethyl to use this widget.");
 }
 

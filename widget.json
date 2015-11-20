@@ -3,7 +3,7 @@
 	"name": "Ti.FormBuilder",
 	"description" : "Build forms for Titanium with just an object.",
 	"author": "Flavio De Stefano",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"copyright":"Copyright (c) 2015",
 	"license":"MIT",
 	"min-alloy-version": "1.0",
