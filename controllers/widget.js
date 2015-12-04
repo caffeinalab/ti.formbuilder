@@ -165,8 +165,8 @@ exports.UIBuilder.text = function(e,f) {
 		returnKeyType: Titanium.UI.RETURNKEY_NEXT
 	}));
 
-	f.addError = function() { $.resetClass(f.ui, "formInput formInputError"); };
-	f.removeError = function() { $.resetClass(f.ui, "formInput"); };
+	f.addError = function() { $.addClass(f.ui, "formInputError"); };
+	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
 
 	f.ui.addEventListener('return', $.validate);
 };

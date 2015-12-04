@@ -39,9 +39,6 @@
 	paddingRight: 0,
 	color: '#000'
 },
-".formInputError":{
-	borderColor: 'red',
-},
 ".formValidatorMessage":{
 	color: 'red',
 	left: 0,
@@ -57,6 +54,7 @@
 	backgroundColor: '#000'
 },
 ".formBooleanLabel":{
+	color: '#000',
 	font:{
 		fontSize: 12
 	}
