@@ -23,6 +23,9 @@ if (UIFactoryTextField == null) throw new Error(LCAT + ": you need the UIFactory
 var UIFactoryLabel = require('T/uifactory/label');
 if (UIFactoryLabel == null) throw new Error(LCAT + ": you need the UIFactory.Label module to use this widget");
 
+var UIFactorySelect = require('T/uifactory/select');
+if (UIFactorySelect == null) throw new Error(LCAT + ": you need the UIFactory.Select module to use this widget");
+
 var Dialog = require('T/dialog');
 if (Dialog == null) throw new Error(LCAT + ": you need the Dialog module to use this widget");
 
@@ -158,7 +161,7 @@ $.validate = function() {
 exports.UIBuilder = {};
 
 exports.UIBuilder.text = function(e,f) {
-	f.ui = UIFactoryTextField(_.extend({}, $.createStyle({ classes: ['formInput'] }), {
+	f.ui = UIFactoryTextField(_.extend({}, $.createStyle({ classes: ['formInput'], apiName: 'TextField' }), {
 		textType: e.type,
 		hintText: e.placeholder,
 		value: e.value,
@@ -176,7 +179,7 @@ exports.UIBuilder.boolean = function(e,f) {
 		value: e.value,
 		left: 0
 	});
-	var label = UIFactoryLabel(_.extend({}, $.createStyle({ classes: ['formBooleanLabel'] }), {
+	var label = UIFactoryLabel(_.extend({}, $.createStyle({ classes: ['formBooleanLabel'], 'apiName':'Label' }), {
 		left: 60,
 		right: 0,
 		html: e.placeholder
@@ -187,6 +190,20 @@ exports.UIBuilder.boolean = function(e,f) {
 	f.ui.add(label);
 
 	f.getValue = function() { return switcher.getValue(); };
+};
+
+exports.UIBuilder.select = function(e,f) {
+	f.ui = UIFactorySelect(_.extend({}, $.createStyle({ classes: ['formInput'], apiName: 'Select' }), {
+		values: e.values,
+		value: e.value,
+		hintText: e.placeholder
+	}));
+
+	f.addError = function() { $.addClass(f.ui, "formInputError"); };
+	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
+	f.getValue = function() { return f.ui.getValue(); };
+
+	f.ui.addEventListener('change', $.validate);
 };
 
 //////////////////
@@ -224,6 +241,8 @@ _.each(_.groupBy(fields, 'group'), function(subFields, k) {
 
 		if (e.type === 'boolean') {
 			exports.UIBuilder.boolean(e,f);
+		} else if (e.type === 'select') {
+			exports.UIBuilder.select(e,f);
 		} else {
 			exports.UIBuilder.text(e,f);
 		}
