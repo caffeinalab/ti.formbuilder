@@ -201,7 +201,6 @@ exports.UIBuilder.select = function(e,f) {
 
 	f.addError = function() { $.addClass(f.ui, "formInputError"); };
 	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
-	f.getValue = function() { return f.ui.getValue(); };
 
 	f.ui.addEventListener('change', $.validate);
 };
@@ -239,13 +238,8 @@ _.each(_.groupBy(fields, 'group'), function(subFields, k) {
 			index: (index++)
 		};
 
-		if (e.type === 'boolean') {
-			exports.UIBuilder.boolean(e,f);
-		} else if (e.type === 'select') {
-			exports.UIBuilder.select(e,f);
-		} else {
-			exports.UIBuilder.text(e,f);
-		}
+		var factory = exports.UIBuilder[ e.type ] || exports.UIBuilder.text;
+		factory(e,f);
 
 		f.uiValidation = $.UI.create('Label', {
 			text: '',
