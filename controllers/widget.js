@@ -1,5 +1,6 @@
 var args = arguments[0] || {};
 _.defaults(args, {
+	showSubmitButton: true,
 	askBeforeSubmit: false,
 	submitTitle: L('form_submit', 'Submit')
 });
@@ -25,6 +26,9 @@ if (UIFactoryLabel == null) throw new Error(LCAT + ": you need the UIFactory.Lab
 
 var UIFactorySelect = require('T/uifactory/select');
 if (UIFactorySelect == null) throw new Error(LCAT + ": you need the UIFactory.Select module to use this widget");
+
+var UIFactoryTimeSelect = require('T/uifactory/timeselect');
+if (UIFactoryTimeSelect == null) throw new Error(LCAT + ": you need the UIFactory.TimeSelect module to use this widget");
 
 var Dialog = require('T/dialog');
 if (Dialog == null) throw new Error(LCAT + ": you need the Dialog module to use this widget");
@@ -205,6 +209,18 @@ exports.UIBuilder.select = function(e,f) {
 	f.ui.addEventListener('change', $.validate);
 };
 
+exports.UIBuilder.time = function(e,f) {
+	f.ui = UIFactoryTimeSelect(_.extend({}, $.createStyle({ classes: ['formInput'], apiName: 'TimeSelect' }), {
+		value: e.value,
+		hintText: e.placeholder
+	}));
+
+	f.addError = function() { $.addClass(f.ui, "formInputError"); };
+	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
+
+	f.ui.addEventListener('change', $.validate);
+};
+
 //////////////////
 // Parse fields //
 //////////////////
@@ -255,14 +271,16 @@ _.each(_.groupBy(fields, 'group'), function(subFields, k) {
 	});
 });
 
-var $submit_btn = $.UI.create('Button', {
-	classes: ['formSubmitButton'],
-	title: args.submitTitle
-});
+if (args.showSubmitButton == true) {
+	var $submit_btn = $.UI.create('Button', {
+		classes: ['formSubmitButton'],
+		title: args.submitTitle
+	});
 
-$submit_btn.addEventListener('click', function(e) {
-	if (submitting) return;
-	$.submit();
-});
+	$submit_btn.addEventListener('click', function(e) {
+		if (submitting) return;
+		$.submit();
+	});
 
-$.formMainView.add($submit_btn);
+	$.formMainView.add($submit_btn);
+}
