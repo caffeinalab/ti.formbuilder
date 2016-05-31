@@ -121,6 +121,8 @@ $.validate = function() {
 			var requiredValue = false;
 			if (_.isBoolean(current_value)) {
 				requiredValue = !!current_value;
+			} else if (_.isNumber(current_value) || _.isDate(current_value)) {
+				requiredValue = current_value != null;
 			} else {
 				requiredValue = !_.isEmpty(current_value);
 			}
