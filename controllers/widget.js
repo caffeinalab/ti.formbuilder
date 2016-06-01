@@ -30,6 +30,12 @@ if (UIFactorySelect == null) throw new Error(LCAT + ": you need the UIFactory.Se
 var UIFactoryTimeSelect = require('T/uifactory/timeselect');
 if (UIFactoryTimeSelect == null) throw new Error(LCAT + ": you need the UIFactory.TimeSelect module to use this widget");
 
+var UIFactoryDateSelect = require('T/uifactory/dateselect');
+if (UIFactoryDateSelect == null) throw new Error(LCAT + ": you need the UIFactory.TimeSelect module to use this widget");
+
+var UIFactoryMultiSelect = require('T/uifactory/multiselect');
+if (UIFactoryMultiSelect == null) throw new Error(LCAT + ": you need the UIFactory.MultiSelect module to use this widget");
+
 var Dialog = require('T/dialog');
 if (Dialog == null) throw new Error(LCAT + ": you need the Dialog module to use this widget");
 
@@ -211,6 +217,19 @@ exports.UIBuilder.select = function(e,f) {
 	f.ui.addEventListener('change', $.validate);
 };
 
+exports.UIBuilder.multiselect = function(e,f) {
+	f.ui = UIFactoryMultiSelect(_.extend({}, $.createStyle({ classes: ['formInput'], apiName: 'MultiSelect' }), {
+		values: e.values,
+		value: e.value,
+		hintText: e.placeholder
+	}));
+
+	f.addError = function() { $.addClass(f.ui, "formInputError"); };
+	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
+
+	f.ui.addEventListener('change', $.validate);
+};
+
 exports.UIBuilder.time = function(e,f) {
 	f.ui = UIFactoryTimeSelect(_.extend({}, $.createStyle({ classes: ['formInput'], apiName: 'TimeSelect' }), {
 		value: e.value,
@@ -222,6 +241,20 @@ exports.UIBuilder.time = function(e,f) {
 
 	f.ui.addEventListener('change', $.validate);
 };
+
+exports.UIBuilder.date = function(e,f) {
+	f.ui = UIFactoryTimeSelect(_.extend({}, $.createStyle({ classes: ['formInput'], apiName: 'DateSelect' }), {
+		value: e.value,
+		hintText: e.placeholder
+	}));
+
+	f.addError = function() { $.addClass(f.ui, "formInputError"); };
+	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
+
+	f.ui.addEventListener('change', $.validate);
+};
+
+
 
 //////////////////
 // Parse fields //
