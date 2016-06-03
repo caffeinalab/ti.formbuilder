@@ -2,7 +2,8 @@ var args = arguments[0] || {};
 _.defaults(args, {
 	showSubmitButton: true,
 	askBeforeSubmit: false,
-	submitTitle: L('form_submit', 'Submit')
+	submitTitle: L('form_submit', 'Submit'),
+	builders: {}
 });
 
 var LCAT = "Ti.FormBuilder";
@@ -254,7 +255,7 @@ exports.UIBuilder.date = function(e,f) {
 	f.ui.addEventListener('change', $.validate);
 };
 
-
+_.extend(exports.UIBuilder, args.builders);
 
 //////////////////
 // Parse fields //
