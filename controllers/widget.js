@@ -3,7 +3,8 @@ _.defaults(args, {
 	showSubmitButton: true,
 	askBeforeSubmit: false,
 	submitTitle: L('form_submit', 'Submit'),
-	builders: {}
+	builders: {},
+	validateOnReturn: true
 });
 
 var LCAT = "Ti.FormBuilder";
@@ -184,7 +185,9 @@ exports.UIBuilder.text = function(e,f) {
 	f.addError = function() { $.addClass(f.ui, "formInputError"); };
 	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
 
-	f.ui.addEventListener('return', $.validate);
+	if (args.validateOnReturn == true) {
+		f.ui.addEventListener('return', $.validate);
+	}
 };
 
 exports.UIBuilder.boolean = function(e,f) {
@@ -215,7 +218,9 @@ exports.UIBuilder.select = function(e,f) {
 	f.addError = function() { $.addClass(f.ui, "formInputError"); };
 	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
 
-	f.ui.addEventListener('change', $.validate);
+	if (args.validateOnReturn == true) {
+		f.ui.addEventListener('change', $.validate);
+	}
 };
 
 exports.UIBuilder.multiselect = function(e,f) {
@@ -228,7 +233,9 @@ exports.UIBuilder.multiselect = function(e,f) {
 	f.addError = function() { $.addClass(f.ui, "formInputError"); };
 	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
 
-	f.ui.addEventListener('change', $.validate);
+	if (args.validateOnReturn == true) {
+		f.ui.addEventListener('change', $.validate);
+	}
 };
 
 exports.UIBuilder.time = function(e,f) {
@@ -240,7 +247,9 @@ exports.UIBuilder.time = function(e,f) {
 	f.addError = function() { $.addClass(f.ui, "formInputError"); };
 	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
 
-	f.ui.addEventListener('change', $.validate);
+	if (args.validateOnReturn == true) {
+		f.ui.addEventListener('change', $.validate);
+	}
 };
 
 exports.UIBuilder.date = function(e,f) {
@@ -252,7 +261,9 @@ exports.UIBuilder.date = function(e,f) {
 	f.addError = function() { $.addClass(f.ui, "formInputError"); };
 	f.removeError = function() { $.removeClass(f.ui, "formInputError"); };
 
-	f.ui.addEventListener('change', $.validate);
+	if (args.validateOnReturn == true) {
+		f.ui.addEventListener('change', $.validate);
+	}
 };
 
 _.extend(exports.UIBuilder, args.builders);
