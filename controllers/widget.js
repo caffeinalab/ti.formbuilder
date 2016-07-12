@@ -126,31 +126,31 @@ $.validate = function() {
 
 		// Required validation
 		if (def.required) {
-			var requiredValue = false;
-			if (_.isBoolean(current_value)) {
-				requiredValue = !!current_value;
-			} else if (_.isNumber(current_value) || _.isDate(current_value)) {
-				requiredValue = current_value != null;
+			// Validation custom
+			if (_.isFunction(def.validator)) {
+				var validMessage = def.validator(current_value || '');
+				if (validMessage !== true) {
+					addValidationError(f, validMessage);
+					can_submit = false;
+					field_to_focus = field_to_focus || f;
+					return false;
+				}
 			} else {
-				requiredValue = !_.isEmpty(current_value);
-			}
+				var requiredValue = false;
+				if (_.isBoolean(current_value)) {
+					requiredValue = !!current_value;
+				} else if (_.isNumber(current_value) || _.isDate(current_value)) {
+					requiredValue = current_value != null;
+				} else {
+					requiredValue = !_.isEmpty(current_value);
+				}
 
-			if (requiredValue !== true) {
-				addValidationError(f, L("form_required_field", "Required field"));
-				can_submit = false;
-				field_to_focus = field_to_focus || f;
-				return false;
-			}
-		}
-
-		// Validation custom
-		if (_.isFunction(def.validator)) {
-			var validMessage = def.validator(f.ui.value || '');
-			if (validMessage !== true) {
-				addValidationError(f, validMessage);
-				can_submit = false;
-				field_to_focus = field_to_focus || f;
-				return false;
+				if (requiredValue !== true) {
+					addValidationError(f, L("form_required_field", "Required field"));
+					can_submit = false;
+					field_to_focus = field_to_focus || f;
+					return false;
+				}
 			}
 		}
 
