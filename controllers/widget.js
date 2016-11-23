@@ -92,6 +92,10 @@ function submit() {
 // Public methods //
 ////////////////////
 
+$.getFieldsMap = function() {
+	return fields_map;
+};
+
 $.endSubmit = function() {
 	submitting = false;
 	$.formMainView.touchEnabled = true;
