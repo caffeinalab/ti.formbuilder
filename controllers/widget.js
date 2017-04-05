@@ -183,7 +183,7 @@ exports.UIBuilder.text = function(e,f) {
 		textType: e.type,
 		hintText: e.placeholder,
 		value: e.value,
-		returnKeyType: Titanium.UI.RETURNKEY_NEXT
+		returnKeyType: e.returnKeyType != null ? e.returnKeyType : Titanium.UI.RETURNKEY_NEXT
 	}));
 
 	f.addError = function() { $.addClass(f.ui, "formInputError"); };
