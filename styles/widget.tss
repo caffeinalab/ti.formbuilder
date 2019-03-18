@@ -35,8 +35,10 @@
 	borderWidth: 1,
 	borderColor: '#ccc',
 	backgroundColor: '#F6F6F6',
-	paddingLeft: 10,
-	paddingRight: 0,
+	padding: {
+		left: 10,
+		right: 0,
+	},
 	color: '#000'
 },
 ".formValidatorMessage":{
